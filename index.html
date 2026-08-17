@@ -407,6 +407,8 @@
 
     .route-path { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; }
     .route-path i { color: var(--violet-soft); font-size: 13px; }
+    .route-arrow { color: var(--violet-soft); font-weight: 400; }
+    .route-check .route-arrow { color: inherit; }
 
     .route-check {
         display: flex;
@@ -620,23 +622,23 @@
         <div class="route-grid">
 
             <div class="route-chip">
-                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Rajpura</div>
-                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+                <div class="route-path">Chitkara University <span class="route-arrow">&#8594;</span> Rajpura</div>
+                <button class="route-check" onclick="location.href='booking.html?mode=passenger&from=Chitkara%20University&to=Rajpura'">Check rides <span class="route-arrow">&#8594;</span></button>
             </div>
 
             <div class="route-chip">
-                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Banur</div>
-                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+                <div class="route-path">Chitkara University <span class="route-arrow">&#8594;</span> Banur</div>
+                <button class="route-check" onclick="location.href='booking.html?mode=passenger&from=Chitkara%20University&to=Banur'">Check rides <span class="route-arrow">&#8594;</span></button>
             </div>
 
             <div class="route-chip">
-                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Zirakpur</div>
-                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+                <div class="route-path">Chitkara University <span class="route-arrow">&#8594;</span> Zirakpur</div>
+                <button class="route-check" onclick="location.href='booking.html?mode=passenger&from=Chitkara%20University&to=Zirakpur'">Check rides <span class="route-arrow">&#8594;</span></button>
             </div>
 
             <div class="route-chip">
-                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Patiala</div>
-                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+                <div class="route-path">Chitkara University <span class="route-arrow">&#8594;</span> Patiala</div>
+                <button class="route-check" onclick="location.href='booking.html?mode=passenger&from=Chitkara%20University&to=Patiala'">Check rides <span class="route-arrow">&#8594;</span></button>
             </div>
 
         </div>

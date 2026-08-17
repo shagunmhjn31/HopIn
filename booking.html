@@ -190,8 +190,16 @@
                 <input type="date" id="d-date">
             </div>
             <div class="field">
+                <label for="d-time">Departure time</label>
+                <input type="time" id="d-time">
+            </div>
+            <div class="field">
                 <label for="d-seats">Empty seats</label>
                 <input type="number" id="d-seats" min="1" max="4" placeholder="e.g. 2">
+            </div>
+            <div class="field">
+                <label for="d-price">Price per seat (₹)</label>
+                <input type="number" id="d-price" min="0" placeholder="e.g. 50">
             </div>
             <button type="submit" class="submit-btn">Post ride</button>
             <div class="form-msg" id="d-msg"></div>
@@ -223,6 +231,7 @@
         e.preventDefault();
         var from = document.getElementById('p-from').value.trim();
         var to = document.getElementById('p-to').value.trim();
+        var date = document.getElementById('p-date').value;
         var msg = document.getElementById('p-msg');
 
         if (!from || !to) {
@@ -231,18 +240,22 @@
             return;
         }
 
-        addHistory({ from: from, to: to, role: 'passenger', withName: 'Matched driver (demo)', date: new Date().toLocaleDateString() });
-
         msg.style.color = 'var(--success)';
-        msg.textContent = 'Searching for a ride... redirecting to your dashboard.';
+        msg.textContent = 'Searching available rides...';
 
-        setTimeout(function () { window.location.href = 'dashboard.html'; }, 900);
+        var query = 'from=' + encodeURIComponent(from) + '&to=' + encodeURIComponent(to) + '&date=' + encodeURIComponent(date);
+
+        setTimeout(function () { window.location.href = 'rides-list.html?' + query; }, 500);
     });
 
     document.getElementById('form-driver').addEventListener('submit', function (e) {
         e.preventDefault();
         var from = document.getElementById('d-from').value.trim();
         var to = document.getElementById('d-to').value.trim();
+        var date = document.getElementById('d-date').value;
+        var time = document.getElementById('d-time').value;
+        var seats = document.getElementById('d-seats').value;
+        var price = document.getElementById('d-price').value;
         var msg = document.getElementById('d-msg');
 
         if (!from || !to) {
@@ -251,15 +264,37 @@
             return;
         }
 
-        addHistory({ from: from, to: to, role: 'driver', withName: 'Matched passenger (demo)', date: new Date().toLocaleDateString() });
+        var driverName = sessionStorage.getItem('chitride_name') || 'A ChitRide driver';
+
+        var posted = [];
+        try { posted = JSON.parse(localStorage.getItem('chitride_posted_rides')) || []; } catch (err) { posted = []; }
+
+        posted.unshift({
+            driverName: driverName,
+            from: from,
+            to: to,
+            date: date,
+            time: time || '9:00 AM',
+            seats: seats || 1,
+            price: price || 40
+        });
+
+        localStorage.setItem('chitride_posted_rides', JSON.stringify(posted));
+
+        addHistory({ from: from, to: to, role: 'driver', withName: 'Posted — waiting for a passenger', date: new Date().toLocaleDateString() });
 
         msg.style.color = 'var(--success)';
-        msg.textContent = 'Ride posted! Redirecting to your dashboard.';
+        msg.textContent = 'Ride posted! It will now show up when passengers search this route.';
 
-        setTimeout(function () { window.location.href = 'dashboard.html'; }, 900);
+        setTimeout(function () { window.location.href = 'dashboard.html'; }, 1200);
     });
 
     showMode(initialMode);
+
+    var prefillFrom = params.get('from');
+    var prefillTo = params.get('to');
+    if (prefillFrom) document.getElementById('p-from').value = prefillFrom;
+    if (prefillTo) document.getElementById('p-to').value = prefillTo;
 </script>
 
 </body>

@@ -332,7 +332,7 @@
             var item = document.createElement('div');
             item.className = 'history-item';
             item.innerHTML =
-                '<div class="history-route">' + ride.from + ' <i class="fa-solid fa-arrow-right-long"></i> ' + ride.to +
+                '<div class="history-route">' + ride.from + ' &#8594; ' + ride.to +
                 '<span class="history-badge ' + ride.role + '">' + (ride.role === 'driver' ? 'Drove' : 'Rode') + '</span></div>' +
                 '<div class="history-meta">with <span class="with-name">' + ride.withName + '</span><br>' + ride.date + '</div>';
             listEl.appendChild(item);
