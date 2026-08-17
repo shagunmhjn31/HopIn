@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — ChitRide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+    :root {
+        --bg: #0A0E1A;
+        --bg-2: #10152B;
+        --bg-3: #161C38;
+        --maroon: #A82C3B;
+        --maroon-soft: #D98A82;
+        --cyan: #22E6C5;
+        --amber: #FFB648;
+        --text: #F1F3FA;
+        --muted: #8B93B0;
+        --line: rgba(241, 243, 250, 0.09);
+        --glass: rgba(255, 255, 255, 0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+    }
+
+    h1, h2, .logo span { font-family: 'Space Grotesk', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 18px 40px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 19px; font-weight: 700; }
+    .logo i { color: var(--cyan); font-size: 19px; }
+
+    .nav-right { display: flex; align-items: center; gap: 20px; }
+
+    .user-info { display: flex; align-items: center; gap: 10px; }
+
+    .nav-name { font-size: 13.5px; font-weight: 500; color: var(--text); }
+
+    .avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(168, 44, 59, 0.16);
+        color: var(--maroon-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 13px;
+        font-weight: 600;
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    .logout-link {
+        font-size: 13.5px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        transition: color 0.2s ease;
+    }
+
+    .logout-link:hover { color: var(--text); }
+
+    .wrap { max-width: 980px; margin: 0 auto; padding: 0 40px; }
+
+    .page { padding: 56px 0 100px; }
+
+    .welcome { margin-bottom: 40px; }
+    .welcome .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 12.5px;
+        color: var(--cyan);
+        border: 1px solid rgba(34, 230, 197, 0.3);
+        background: rgba(34, 230, 197, 0.06);
+        padding: 6px 12px;
+        border-radius: 20px;
+        margin-bottom: 16px;
+    }
+    .welcome .eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); }
+    .welcome h1 { font-size: clamp(24px, 4vw, 30px); font-weight: 600; margin-bottom: 8px; }
+    .welcome p { color: var(--muted); font-size: 14.5px; }
+
+    .mode-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+        margin-bottom: 48px;
+    }
+
+    .mode-card {
+        background: var(--glass);
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 28px 26px;
+        transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .mode-card:hover { transform: translateY(-4px); }
+    .mode-card.passenger:hover { border-color: rgba(34, 230, 197, 0.4); }
+    .mode-card.driver:hover { border-color: rgba(255, 182, 72, 0.4); }
+
+    .mode-icon {
+        width: 44px;
+        height: 44px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        margin-bottom: 18px;
+    }
+
+    .passenger .mode-icon { background: rgba(34, 230, 197, 0.12); color: var(--cyan); }
+    .driver .mode-icon { background: rgba(255, 182, 72, 0.12); color: var(--amber); }
+
+    .mode-card h3 { font-size: 17px; font-weight: 600; margin-bottom: 6px; }
+    .mode-card p { color: var(--muted); font-size: 13.5px; line-height: 1.55; margin-bottom: 18px; }
+
+    .mode-btn {
+        display: block;
+        text-align: center;
+        border: none;
+        padding: 11px 0;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 13.5px;
+        cursor: pointer;
+    }
+
+    .passenger .mode-btn { background: var(--cyan); color: #04231D; }
+    .driver .mode-btn { background: var(--amber); color: #3A2200; }
+
+    .section-title {
+        font-size: 15px;
+        font-weight: 600;
+        margin-bottom: 18px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .empty-state {
+        border: 1px dashed var(--line);
+        border-radius: 16px;
+        padding: 48px 30px;
+        text-align: center;
+    }
+
+    .empty-state .icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: var(--bg-3);
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        margin: 0 auto 18px;
+    }
+
+    .empty-state h3 { font-size: 15.5px; font-weight: 600; margin-bottom: 6px; }
+    .empty-state p { color: var(--muted); font-size: 13.5px; margin-bottom: 20px; }
+
+    .empty-state .actions { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
+
+    .empty-btn {
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text);
+        padding: 10px 18px;
+        border-radius: 8px;
+        font-size: 13.5px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: border-color 0.2s ease;
+    }
+
+    .empty-btn:hover { border-color: rgba(168, 44, 59, 0.5); }
+
+    .history-list { display: flex; flex-direction: column; gap: 12px; }
+
+    .history-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        border: 1px solid var(--line);
+        background: var(--bg-3);
+        padding: 18px 22px;
+        border-radius: 14px;
+    }
+
+    .history-route { display: flex; align-items: center; gap: 10px; font-size: 14.5px; font-weight: 500; }
+    .history-route i { color: var(--maroon-soft); font-size: 12px; }
+
+    .history-meta { color: var(--muted); font-size: 13px; text-align: right; }
+    .history-meta .with-name { color: var(--text); font-weight: 500; }
+
+    .history-badge {
+        font-size: 11.5px;
+        font-weight: 600;
+        padding: 3px 10px;
+        border-radius: 20px;
+        margin-left: 10px;
+    }
+
+    .history-badge.passenger { background: rgba(34, 230, 197, 0.12); color: var(--cyan); }
+    .history-badge.driver { background: rgba(255, 182, 72, 0.12); color: var(--amber); }
+
+    .hidden { display: none; }
+
+    @media (max-width: 700px) {
+        .mode-grid { grid-template-columns: 1fr; }
+        .wrap { padding: 0 22px; }
+        nav { padding: 16px 22px; }
+    }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><i class="fa-solid fa-car-side"></i><span>ChitRide</span></div>
+    <div class="nav-right">
+        <div class="user-info">
+            <div class="avatar" id="avatar">S</div>
+            <span id="nav-name" class="nav-name">Student</span>
+        </div>
+        <a class="logout-link" href="#" id="logout-btn"><i class="fa-solid fa-arrow-right-from-bracket"></i> Log out</a>
+    </div>
+</nav>
+
+<div class="wrap">
+    <div class="page">
+
+        <div class="welcome">
+            <div class="eyebrow"><span class="dot"></span> Verified Chitkara University account</div>
+            <h1 id="welcome-heading">Welcome back</h1>
+            <p>Choose how you're travelling today — you can switch anytime.</p>
+        </div>
+
+        <div class="mode-grid">
+
+            <div class="mode-card passenger">
+                <div class="mode-icon"><i class="fa-solid fa-user-group"></i></div>
+                <h3>Find a ride</h3>
+                <p>Search for students already driving your route and book a seat.</p>
+                <a class="mode-btn" href="booking.html?mode=passenger">Search rides</a>
+            </div>
+
+            <div class="mode-card driver">
+                <div class="mode-icon"><i class="fa-solid fa-car"></i></div>
+                <h3>Offer a ride</h3>
+                <p>Post your route and empty seats for other students to book.</p>
+                <a class="mode-btn" href="booking.html?mode=driver">Post a ride</a>
+            </div>
+
+        </div>
+
+        <div class="section-title"><i class="fa-solid fa-clock-rotate-left"></i> Your history</div>
+
+        <div id="history-empty" class="empty-state">
+            <div class="icon"><i class="fa-solid fa-road"></i></div>
+            <h3>No history yet</h3>
+            <p>Once you book or offer a ride, it'll show up here — showing where you went and who you rode with.</p>
+            <div class="actions">
+                <a class="empty-btn" href="booking.html?mode=passenger">Find a ride</a>
+                <a class="empty-btn" href="booking.html?mode=driver">Offer a ride</a>
+            </div>
+        </div>
+
+        <div id="history-list" class="history-list hidden"></div>
+
+    </div>
+</div>
+
+<script>
+    var name = sessionStorage.getItem('chitride_name') || 'there';
+    var initial = name.trim().charAt(0).toUpperCase() || 'S';
+
+    document.getElementById('welcome-heading').textContent = 'Welcome, ' + name;
+    document.getElementById('avatar').textContent = initial;
+    document.getElementById('nav-name').textContent = name;
+
+    document.getElementById('logout-btn').addEventListener('click', function (e) {
+        e.preventDefault();
+        sessionStorage.removeItem('chitride_name');
+        window.location.href = 'index.html';
+    });
+
+    var history = [];
+    try {
+        history = JSON.parse(localStorage.getItem('chitride_history')) || [];
+    } catch (err) {
+        history = [];
+    }
+
+    var emptyEl = document.getElementById('history-empty');
+    var listEl = document.getElementById('history-list');
+
+    if (history.length === 0) {
+        emptyEl.classList.remove('hidden');
+        listEl.classList.add('hidden');
+    } else {
+        emptyEl.classList.add('hidden');
+        listEl.classList.remove('hidden');
+
+        history.forEach(function (ride) {
+            var item = document.createElement('div');
+            item.className = 'history-item';
+            item.innerHTML =
+                '<div class="history-route">' + ride.from + ' <i class="fa-solid fa-arrow-right-long"></i> ' + ride.to +
+                '<span class="history-badge ' + ride.role + '">' + (ride.role === 'driver' ? 'Drove' : 'Rode') + '</span></div>' +
+                '<div class="history-meta">with <span class="with-name">' + ride.withName + '</span><br>' + ride.date + '</div>';
+            listEl.appendChild(item);
+        });
+    }
+</script>
+
+</body>
+</html>

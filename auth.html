@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Sign in — ChitRide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+    :root {
+        --bg: #0A0E1A;
+        --bg-2: #10152B;
+        --bg-3: #161C38;
+        --maroon: #A82C3B;
+        --maroon-soft: #D98A82;
+        --cyan: #22E6C5;
+        --amber: #FFB648;
+        --text: #F1F3FA;
+        --muted: #8B93B0;
+        --line: rgba(241, 243, 250, 0.09);
+        --glass: rgba(255, 255, 255, 0.04);
+        --error: #F0997B;
+        --success: #22E6C5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        min-height: 100vh;
+    }
+
+    h1, .logo span { font-family: 'Space Grotesk', sans-serif; }
+
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+    .logo i { color: var(--cyan); font-size: 20px; }
+
+    .back-link {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 14px;
+        color: var(--muted);
+        transition: color 0.2s ease;
+    }
+
+    .back-link:hover { color: var(--text); }
+
+    .auth-wrap {
+        min-height: calc(100vh - 73px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .auth-wrap::before {
+        content: "";
+        position: absolute;
+        top: -20%;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 700px;
+        height: 700px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(168, 44, 59, 0.14), transparent 65%);
+        pointer-events: none;
+    }
+
+    .auth-card {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        max-width: 420px;
+        background: var(--glass);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        border-radius: 18px;
+        padding: 36px 34px 32px;
+    }
+
+    .auth-head { text-align: center; margin-bottom: 26px; }
+    .auth-head .icon-badge {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        background: rgba(168, 44, 59, 0.14);
+        color: var(--maroon-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        margin: 0 auto 16px;
+    }
+    .auth-head h1 { font-size: 22px; font-weight: 600; margin-bottom: 6px; }
+    .auth-head p { color: var(--muted); font-size: 13.5px; }
+
+    .tabs {
+        display: flex;
+        background: var(--bg-3);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 26px;
+    }
+
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 9px 0;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--muted);
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background 0.2s ease, color 0.2s ease;
+        border: none;
+        background: transparent;
+        font-family: 'Inter', sans-serif;
+    }
+
+    .tab.active { background: var(--maroon); color: #fff; }
+
+    .field { margin-bottom: 16px; }
+
+    .field label {
+        display: block;
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-bottom: 7px;
+        font-weight: 500;
+    }
+
+    .field input {
+        width: 100%;
+        background: var(--bg-3);
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        outline: none;
+        transition: border-color 0.2s ease;
+    }
+
+    .field input::placeholder { color: #565C77; }
+    .field input:focus { border-color: var(--maroon-soft); }
+    .field input.invalid { border-color: var(--error); }
+
+    .field .hint {
+        margin-top: 6px;
+        font-size: 12px;
+        color: var(--muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        min-height: 15px;
+    }
+
+    .field .hint.err { color: var(--error); }
+    .field .hint.ok { color: var(--success); }
+
+    .terms {
+        display: flex;
+        align-items: flex-start;
+        gap: 9px;
+        font-size: 12.5px;
+        color: var(--muted);
+        margin-bottom: 20px;
+        line-height: 1.5;
+    }
+
+    .terms input { margin-top: 3px; accent-color: var(--maroon); }
+
+    .submit-btn {
+        width: 100%;
+        background: var(--maroon);
+        color: #fff;
+        border: none;
+        padding: 13px 0;
+        border-radius: 9px;
+        font-weight: 600;
+        font-size: 14.5px;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        transition: filter 0.2s ease, transform 0.15s ease;
+    }
+
+    .submit-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    .form-msg {
+        text-align: center;
+        font-size: 13px;
+        margin-top: 16px;
+        min-height: 17px;
+    }
+
+    .form-msg.err { color: var(--error); }
+    .form-msg.ok { color: var(--success); }
+
+    .switch-line {
+        text-align: center;
+        margin-top: 22px;
+        font-size: 13px;
+        color: var(--muted);
+    }
+
+    .switch-line button {
+        background: none;
+        border: none;
+        color: var(--cyan);
+        font-weight: 600;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        font-size: 13px;
+    }
+
+    .hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <i class="fa-solid fa-car-side"></i>
+        <span>ChitRide</span>
+    </div>
+    <a class="back-link" href="index.html"><i class="fa-solid fa-arrow-left"></i> Back to home</a>
+</nav>
+
+<section class="auth-wrap">
+
+    <div class="auth-card">
+
+        <div class="auth-head">
+            <div class="icon-badge"><i class="fa-solid fa-car-side"></i></div>
+            <h1>Welcome to ChitRide</h1>
+            <p>Sign in with your Chitkara University email to continue.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab active" id="tab-signin" onclick="showTab('signin')">Sign in</button>
+            <button class="tab" id="tab-signup" onclick="showTab('signup')">Create account</button>
+        </div>
+
+        <form id="signin-form" novalidate>
+
+            <div class="field">
+                <label for="signin-email">Chitkara University email</label>
+                <input type="text" id="signin-email" placeholder="yourname@chitkara.edu.in" autocomplete="email">
+                <div class="hint" id="signin-email-hint"></div>
+            </div>
+
+            <div class="field">
+                <label for="signin-password">Password</label>
+                <input type="password" id="signin-password" placeholder="Enter your password" autocomplete="current-password">
+                <div class="hint" id="signin-password-hint"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Sign in</button>
+            <div class="form-msg" id="signin-msg"></div>
+
+        </form>
+
+        <form id="signup-form" novalidate class="hidden">
+
+            <div class="field">
+                <label for="signup-name">Full name</label>
+                <input type="text" id="signup-name" placeholder="Your full name" autocomplete="name">
+                <div class="hint" id="signup-name-hint"></div>
+            </div>
+
+            <div class="field">
+                <label for="signup-email">Chitkara University email</label>
+                <input type="text" id="signup-email" placeholder="yourname@chitkara.edu.in" autocomplete="email">
+                <div class="hint" id="signup-email-hint"></div>
+            </div>
+
+            <div class="field">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" placeholder="At least 8 characters" autocomplete="new-password">
+                <div class="hint" id="signup-password-hint"></div>
+            </div>
+
+            <div class="field">
+                <label for="signup-confirm">Confirm password</label>
+                <input type="password" id="signup-confirm" placeholder="Re-enter your password" autocomplete="new-password">
+                <div class="hint" id="signup-confirm-hint"></div>
+            </div>
+
+            <label class="terms">
+                <input type="checkbox" id="signup-terms">
+                <span>I confirm I'm a Chitkara University student and agree to ride responsibly.</span>
+            </label>
+
+            <button type="submit" class="submit-btn">Create account</button>
+            <div class="form-msg" id="signup-msg"></div>
+
+        </form>
+
+        <div class="switch-line" id="switch-line-signin">
+            New to ChitRide? <button onclick="showTab('signup')">Create an account</button>
+        </div>
+
+        <div class="switch-line hidden" id="switch-line-signup">
+            Already have an account? <button onclick="showTab('signin')">Sign in</button>
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+    var CHITKARA_EMAIL_REGEX = /^[a-zA-Z0-9._%+-]+@chitkara\.edu\.in$/i;
+
+    function showTab(which) {
+        document.getElementById('tab-signin').classList.toggle('active', which === 'signin');
+        document.getElementById('tab-signup').classList.toggle('active', which === 'signup');
+        document.getElementById('signin-form').classList.toggle('hidden', which !== 'signin');
+        document.getElementById('signup-form').classList.toggle('hidden', which !== 'signup');
+        document.getElementById('switch-line-signin').classList.toggle('hidden', which !== 'signin');
+        document.getElementById('switch-line-signup').classList.toggle('hidden', which !== 'signup');
+    }
+
+    function validateEmailField(inputEl, hintEl) {
+        var value = inputEl.value.trim();
+
+        if (value === '') {
+            inputEl.classList.remove('invalid');
+            hintEl.textContent = '';
+            hintEl.className = 'hint';
+            return false;
+        }
+
+        if (!CHITKARA_EMAIL_REGEX.test(value)) {
+            inputEl.classList.add('invalid');
+            hintEl.textContent = 'Must be a @chitkara.edu.in email address';
+            hintEl.className = 'hint err';
+            return false;
+        }
+
+        inputEl.classList.remove('invalid');
+        hintEl.textContent = 'Verified Chitkara University email';
+        hintEl.className = 'hint ok';
+        return true;
+    }
+
+    var signinEmail = document.getElementById('signin-email');
+    var signinEmailHint = document.getElementById('signin-email-hint');
+    signinEmail.addEventListener('input', function () { validateEmailField(signinEmail, signinEmailHint); });
+
+    var signupEmail = document.getElementById('signup-email');
+    var signupEmailHint = document.getElementById('signup-email-hint');
+    signupEmail.addEventListener('input', function () { validateEmailField(signupEmail, signupEmailHint); });
+
+    document.getElementById('signin-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var msg = document.getElementById('signin-msg');
+        var passwordEl = document.getElementById('signin-password');
+        var passwordHint = document.getElementById('signin-password-hint');
+
+        var emailOk = validateEmailField(signinEmail, signinEmailHint);
+        if (!emailOk) {
+            msg.textContent = 'Please fix the errors above before continuing.';
+            msg.className = 'form-msg err';
+            return;
+        }
+
+        if (passwordEl.value.trim() === '') {
+            passwordEl.classList.add('invalid');
+            passwordHint.textContent = 'Enter your password';
+            passwordHint.className = 'hint err';
+            msg.textContent = '';
+            return;
+        }
+
+        passwordEl.classList.remove('invalid');
+        passwordHint.textContent = '';
+
+        msg.textContent = 'Signed in. Redirecting to your dashboard...';
+        msg.className = 'form-msg ok';
+
+        var derivedName = signinEmail.value.trim().split('@')[0].split(/[._]/).map(function (part) {
+            return part.charAt(0).toUpperCase() + part.slice(1);
+        }).join(' ');
+        sessionStorage.setItem('chitride_name', derivedName);
+
+        setTimeout(function () {
+            window.location.href = 'dashboard.html';
+        }, 900);
+    });
+
+    document.getElementById('signup-form').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        var msg = document.getElementById('signup-msg');
+        var nameEl = document.getElementById('signup-name');
+        var nameHint = document.getElementById('signup-name-hint');
+        var passwordEl = document.getElementById('signup-password');
+        var passwordHint = document.getElementById('signup-password-hint');
+        var confirmEl = document.getElementById('signup-confirm');
+        var confirmHint = document.getElementById('signup-confirm-hint');
+        var termsEl = document.getElementById('signup-terms');
+
+        var ok = true;
+
+        if (nameEl.value.trim() === '') {
+            nameEl.classList.add('invalid');
+            nameHint.textContent = 'Enter your full name';
+            nameHint.className = 'hint err';
+            ok = false;
+        } else {
+            nameEl.classList.remove('invalid');
+            nameHint.textContent = '';
+        }
+
+        var emailOk = validateEmailField(signupEmail, signupEmailHint);
+        if (!emailOk) ok = false;
+
+        if (passwordEl.value.length < 8) {
+            passwordEl.classList.add('invalid');
+            passwordHint.textContent = 'Password must be at least 8 characters';
+            passwordHint.className = 'hint err';
+            ok = false;
+        } else {
+            passwordEl.classList.remove('invalid');
+            passwordHint.textContent = '';
+        }
+
+        if (confirmEl.value !== passwordEl.value || confirmEl.value === '') {
+            confirmEl.classList.add('invalid');
+            confirmHint.textContent = 'Passwords do not match';
+            confirmHint.className = 'hint err';
+            ok = false;
+        } else {
+            confirmEl.classList.remove('invalid');
+            confirmHint.textContent = '';
+        }
+
+        if (!termsEl.checked) {
+            msg.textContent = 'Please confirm you are a Chitkara University student.';
+            msg.className = 'form-msg err';
+            ok = false;
+        }
+
+        if (!ok) {
+            if (msg.textContent === '') {
+                msg.textContent = 'Please fix the errors above before continuing.';
+                msg.className = 'form-msg err';
+            }
+            return;
+        }
+
+        msg.textContent = 'Account created. Redirecting to your dashboard...';
+        msg.className = 'form-msg ok';
+
+        sessionStorage.setItem('chitride_name', nameEl.value.trim().split(' ')[0]);
+
+        setTimeout(function () {
+            window.location.href = 'dashboard.html';
+        }, 900);
+    });
+
+    var params = new URLSearchParams(window.location.search);
+var mode = params.get("mode");
+
+if (mode === "signup") {
+    showTab("signup");
+} else {
+    showTab("signin");   // Default to Sign In
+}
+</script>
+
+</body>
+</html>

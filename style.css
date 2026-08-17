@@ -1,0 +1,336 @@
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins',sans-serif;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+    background:#f8f9fa;
+    overflow-x:hidden;
+}
+
+/* ================= NAVBAR ================= */
+
+nav{
+
+    width:100%;
+    height:85px;
+
+    background:#D71920;
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:0 90px;
+
+    position:fixed;
+    top:0;
+    left:0;
+
+    z-index:1000;
+
+    box-shadow:0 6px 18px rgba(0,0,0,.15);
+
+}
+
+.logo{
+
+    display:flex;
+    align-items:center;
+    gap:12px;
+
+    font-size:30px;
+    font-weight:700;
+
+    color:white;
+
+}
+
+.logo i{
+
+    font-size:34px;
+
+}
+
+.nav-right{
+
+    display:flex;
+    align-items:center;
+    gap:18px;
+
+}
+
+.offer-btn{
+
+    padding:13px 30px;
+
+    border-radius:50px;
+
+    border:none;
+
+    background:white;
+
+    color:#D71920;
+
+    font-size:16px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.35s;
+
+}
+
+.offer-btn:hover{
+
+    transform:translateY(-3px);
+
+    background:#ffe4e4;
+
+}
+
+.profile{
+
+    width:50px;
+    height:50px;
+
+    border-radius:50%;
+
+    background:white;
+
+    color:#D71920;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    font-size:22px;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.profile:hover{
+
+    transform:scale(1.08);
+
+}
+
+/* ================= HERO ================= */
+
+.hero{
+
+    height:100vh;
+
+    background-image:url(images/campus.jpg);
+
+    background-size:cover;
+
+    background-position:center;
+
+    position:relative;
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+.overlay{
+
+    position:absolute;
+
+    inset:0;
+
+    background:rgba(130,0,0,.45);
+
+    backdrop-filter:blur(4px);
+
+}
+
+.hero-content{
+
+    position:relative;
+
+    z-index:5;
+
+    text-align:center;
+
+    color:white;
+
+    width:90%;
+    max-width:1200px;
+
+}
+
+.hero h1{
+
+    font-size:72px;
+
+    font-weight:700;
+
+    line-height:1.1;
+
+    margin-bottom:25px;
+
+    text-shadow:0 5px 18px rgba(0,0,0,.25);
+
+}
+
+.hero p{
+
+    font-size:22px;
+
+    margin-bottom:70px;
+
+    color:#f3f3f3;
+
+}
+
+/* ================= CARDS ================= */
+
+.cards{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:35px;
+
+    flex-wrap:wrap;
+
+}
+
+.glass-card{
+
+    width:360px;
+
+    padding:40px;
+
+    border-radius:25px;
+
+    background:rgba(255,255,255,.10);
+
+    backdrop-filter:blur(18px);
+
+    -webkit-backdrop-filter:blur(18px);
+
+    border:1px solid rgba(255,255,255,.28);
+
+    box-shadow:0 15px 35px rgba(0,0,0,.18);
+
+    transition:.4s;
+
+}
+
+.glass-card:hover{
+
+    transform:translateY(-12px) scale(1.02);
+
+    background:rgba(255,255,255,.18);
+
+}
+
+.icon{
+
+    font-size:60px;
+
+    margin-bottom:20px;
+
+}
+
+.glass-card h2{
+
+    font-size:36px;
+
+    margin-bottom:18px;
+
+}
+
+.glass-card p{
+
+    font-size:17px;
+
+    line-height:1.6;
+
+    margin-bottom:30px;
+
+    color:#f2f2f2;
+
+}
+
+.glass-card button{
+
+    width:100%;
+
+    padding:16px;
+
+    border:none;
+
+    border-radius:50px;
+
+    background:#D71920;
+
+    color:white;
+
+    font-size:17px;
+
+    font-weight:600;
+
+    cursor:pointer;
+
+    transition:.3s;
+
+}
+
+.glass-card button:hover{
+
+    background:#a81218;
+
+    transform:scale(1.03);
+
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:900px){
+
+    nav{
+
+        padding:0 25px;
+
+    }
+
+    .hero h1{
+
+        font-size:48px;
+
+    }
+
+    .hero p{
+
+        font-size:18px;
+
+    }
+
+    .cards{
+
+        flex-direction:column;
+
+        align-items:center;
+
+    }
+
+}

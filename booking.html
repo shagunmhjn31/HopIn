@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Book a Ride — ChitRide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+    :root {
+        --bg: #0A0E1A;
+        --bg-2: #10152B;
+        --bg-3: #161C38;
+        --maroon: #A82C3B;
+        --maroon-soft: #D98A82;
+        --cyan: #22E6C5;
+        --amber: #FFB648;
+        --text: #F1F3FA;
+        --muted: #8B93B0;
+        --line: rgba(241, 243, 250, 0.09);
+        --glass: rgba(255, 255, 255, 0.04);
+        --success: #22E6C5;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    h1, .logo span { font-family: 'Space Grotesk', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+    .logo i { color: var(--cyan); font-size: 20px; }
+
+    .back-link { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); transition: color 0.2s ease; }
+    .back-link:hover { color: var(--text); }
+
+    .page-wrap {
+        min-height: calc(100vh - 73px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 60px 20px;
+    }
+
+    .booking-card {
+        width: 100%;
+        max-width: 440px;
+        background: var(--glass);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        border-radius: 18px;
+        padding: 34px;
+    }
+
+    .head { text-align: center; margin-bottom: 24px; }
+    .head h1 { font-size: 21px; font-weight: 600; margin-bottom: 6px; }
+    .head p { color: var(--muted); font-size: 13.5px; }
+
+    .tabs {
+        display: flex;
+        background: var(--bg-3);
+        border: 1px solid var(--line);
+        border-radius: 10px;
+        padding: 4px;
+        margin-bottom: 26px;
+    }
+
+    .tab {
+        flex: 1;
+        text-align: center;
+        padding: 9px 0;
+        font-size: 13.5px;
+        font-weight: 600;
+        color: var(--muted);
+        border-radius: 8px;
+        cursor: pointer;
+        border: none;
+        background: transparent;
+        font-family: 'Inter', sans-serif;
+        transition: background 0.2s ease, color 0.2s ease;
+    }
+
+    .tab.passenger.active { background: var(--cyan); color: #04231D; }
+    .tab.driver.active { background: var(--amber); color: #3A2200; }
+
+    .field { margin-bottom: 16px; }
+    .field label { display: block; font-size: 12.5px; color: var(--muted); margin-bottom: 7px; font-weight: 500; }
+
+    .field input {
+        width: 100%;
+        background: var(--bg-3);
+        border: 1px solid var(--line);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        font-size: 14px;
+        padding: 12px 14px;
+        border-radius: 9px;
+        outline: none;
+        transition: border-color 0.2s ease;
+    }
+
+    .field input::placeholder { color: #565C77; }
+    .field input:focus { border-color: var(--maroon-soft); }
+
+    .submit-btn {
+        width: 100%;
+        border: none;
+        padding: 13px 0;
+        border-radius: 9px;
+        font-weight: 600;
+        font-size: 14.5px;
+        cursor: pointer;
+        font-family: 'Inter', sans-serif;
+        transition: filter 0.2s ease, transform 0.15s ease;
+    }
+
+    .submit-btn:hover { filter: brightness(1.1); transform: translateY(-1px); }
+
+    #form-passenger .submit-btn { background: var(--cyan); color: #04231D; }
+    #form-driver .submit-btn { background: var(--amber); color: #3A2200; }
+
+    .form-msg { text-align: center; font-size: 13px; margin-top: 14px; color: var(--success); min-height: 16px; }
+
+    .hidden { display: none; }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><i class="fa-solid fa-car-side"></i><span>ChitRide</span></div>
+    <a class="back-link" href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> Back to dashboard</a>
+</nav>
+
+<section class="page-wrap">
+
+    <div class="booking-card">
+
+        <div class="head">
+            <h1>Book your ride</h1>
+            <p>Fill in your route — we'll match you with a fellow student.</p>
+        </div>
+
+        <div class="tabs">
+            <button class="tab passenger" id="tab-passenger" onclick="showMode('passenger')">Find a ride</button>
+            <button class="tab driver" id="tab-driver" onclick="showMode('driver')">Offer a ride</button>
+        </div>
+
+        <form id="form-passenger" class="hidden">
+            <div class="field">
+                <label for="p-from">Pickup point</label>
+                <input type="text" id="p-from" placeholder="e.g. Chitkara University">
+            </div>
+            <div class="field">
+                <label for="p-to">Drop point</label>
+                <input type="text" id="p-to" placeholder="e.g. Rajpura">
+            </div>
+            <div class="field">
+                <label for="p-date">Date</label>
+                <input type="date" id="p-date">
+            </div>
+            <button type="submit" class="submit-btn">Search rides</button>
+            <div class="form-msg" id="p-msg"></div>
+        </form>
+
+        <form id="form-driver" class="hidden">
+            <div class="field">
+                <label for="d-from">Starting point</label>
+                <input type="text" id="d-from" placeholder="e.g. Chitkara University">
+            </div>
+            <div class="field">
+                <label for="d-to">Destination</label>
+                <input type="text" id="d-to" placeholder="e.g. Zirakpur">
+            </div>
+            <div class="field">
+                <label for="d-date">Date</label>
+                <input type="date" id="d-date">
+            </div>
+            <div class="field">
+                <label for="d-seats">Empty seats</label>
+                <input type="number" id="d-seats" min="1" max="4" placeholder="e.g. 2">
+            </div>
+            <button type="submit" class="submit-btn">Post ride</button>
+            <div class="form-msg" id="d-msg"></div>
+        </form>
+
+    </div>
+
+</section>
+
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var initialMode = params.get('mode') === 'driver' ? 'driver' : 'passenger';
+
+    function showMode(mode) {
+        document.getElementById('tab-passenger').classList.toggle('active', mode === 'passenger');
+        document.getElementById('tab-driver').classList.toggle('active', mode === 'driver');
+        document.getElementById('form-passenger').classList.toggle('hidden', mode !== 'passenger');
+        document.getElementById('form-driver').classList.toggle('hidden', mode !== 'driver');
+    }
+
+    function addHistory(entry) {
+        var history = [];
+        try { history = JSON.parse(localStorage.getItem('chitride_history')) || []; } catch (e) { history = []; }
+        history.unshift(entry);
+        localStorage.setItem('chitride_history', JSON.stringify(history));
+    }
+
+    document.getElementById('form-passenger').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var from = document.getElementById('p-from').value.trim();
+        var to = document.getElementById('p-to').value.trim();
+        var msg = document.getElementById('p-msg');
+
+        if (!from || !to) {
+            msg.style.color = '#F0997B';
+            msg.textContent = 'Please fill in pickup and drop point.';
+            return;
+        }
+
+        addHistory({ from: from, to: to, role: 'passenger', withName: 'Matched driver (demo)', date: new Date().toLocaleDateString() });
+
+        msg.style.color = 'var(--success)';
+        msg.textContent = 'Searching for a ride... redirecting to your dashboard.';
+
+        setTimeout(function () { window.location.href = 'dashboard.html'; }, 900);
+    });
+
+    document.getElementById('form-driver').addEventListener('submit', function (e) {
+        e.preventDefault();
+        var from = document.getElementById('d-from').value.trim();
+        var to = document.getElementById('d-to').value.trim();
+        var msg = document.getElementById('d-msg');
+
+        if (!from || !to) {
+            msg.style.color = '#F0997B';
+            msg.textContent = 'Please fill in starting point and destination.';
+            return;
+        }
+
+        addHistory({ from: from, to: to, role: 'driver', withName: 'Matched passenger (demo)', date: new Date().toLocaleDateString() });
+
+        msg.style.color = 'var(--success)';
+        msg.textContent = 'Ride posted! Redirecting to your dashboard.';
+
+        setTimeout(function () { window.location.href = 'dashboard.html'; }, 900);
+    });
+
+    showMode(initialMode);
+</script>
+
+</body>
+</html>

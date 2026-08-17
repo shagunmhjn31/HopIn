@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ChitRide — Carpooling for Chitkara University</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+    :root {
+        --bg: #0A0E1A;
+        --bg-2: #10152B;
+        --bg-3: #161C38;
+        --violet: #A82C3B;
+        --violet-soft: #D98A82;
+        --cyan: #22E6C5;
+        --amber: #FFB648;
+        --text: #F1F3FA;
+        --muted: #8B93B0;
+        --line: rgba(241, 243, 250, 0.09);
+        --glass: rgba(255, 255, 255, 0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+        background: var(--bg);
+        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        overflow-x: hidden;
+    }
+
+    h1, h2, h3, .logo span {
+        font-family: 'Space Grotesk', sans-serif;
+    }
+
+    a { color: inherit; text-decoration: none; }
+
+    .wrap {
+        max-width: 1180px;
+        margin: 0 auto;
+        padding: 0 40px;
+    }
+
+    /* ================= NAVBAR ================= */
+
+    nav {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 100;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        backdrop-filter: blur(14px);
+        background: rgba(10, 14, 26, 0.6);
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 20px;
+        font-weight: 700;
+        letter-spacing: 0.3px;
+    }
+
+    .logo i {
+        color: var(--cyan);
+        font-size: 20px;
+    }
+
+    .nav-links {
+        display: flex;
+        gap: 34px;
+        font-size: 14.5px;
+        color: var(--muted);
+    }
+
+    .nav-links a { transition: color 0.2s ease; }
+    .nav-links a:hover { color: var(--text); }
+
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+    }
+
+    .offer-btn {
+        display: inline-block;
+        background: var(--violet);
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-family: 'Inter', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        box-shadow: 0 0 0 1px rgba(168, 44, 59, 0.4);
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .offer-btn:hover, .offer-btn:focus-visible {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 18px rgba(168, 44, 59, 0.45);
+    }
+
+    .profile {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        border: 1px solid var(--line);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: var(--muted);
+        cursor: pointer;
+        transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
+    }
+
+    .profile:hover, .profile:focus-visible {
+        border-color: rgba(168, 44, 59, 0.5);
+        color: var(--maroon-soft, var(--violet-soft));
+        background: rgba(168, 44, 59, 0.08);
+    }
+
+    /* ================= HERO ================= */
+
+    .hero {
+        position: relative;
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        padding: 140px 40px 100px;
+        overflow: hidden;
+    }
+
+    #network-bg {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        opacity: 0.9;
+    }
+
+    .hero::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(ellipse 70% 60% at 50% 30%, transparent 0%, var(--bg) 85%);
+        pointer-events: none;
+    }
+
+    .hero-content {
+        position: relative;
+        z-index: 2;
+        max-width: 1180px;
+        margin: 0 auto;
+        width: 100%;
+        text-align: center;
+    }
+
+    .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        font-size: 13px;
+        color: var(--cyan);
+        border: 1px solid rgba(34, 230, 197, 0.3);
+        background: rgba(34, 230, 197, 0.06);
+        padding: 7px 14px;
+        border-radius: 20px;
+        margin-bottom: 26px;
+        letter-spacing: 0.3px;
+    }
+
+    .eyebrow .dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--cyan);
+        box-shadow: 0 0 8px var(--cyan);
+    }
+
+    .hero h1 {
+        font-size: clamp(36px, 6vw, 64px);
+        line-height: 1.08;
+        font-weight: 600;
+        letter-spacing: -1px;
+    }
+
+    .hero h1 span {
+        background: linear-gradient(90deg, var(--violet-soft), var(--cyan));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .hero p.sub {
+        margin: 22px auto 0;
+        max-width: 560px;
+        color: var(--muted);
+        font-size: 17px;
+        line-height: 1.6;
+    }
+
+    .hero p.sub strong { color: var(--text); font-weight: 600; }
+
+    /* cards */
+
+    .cards {
+        margin-top: 56px;
+        display: flex;
+        justify-content: center;
+        gap: 24px;
+        flex-wrap: wrap;
+    }
+
+    .glass-card {
+        width: 300px;
+        background: var(--glass);
+        border: 1px solid var(--line);
+        backdrop-filter: blur(18px);
+        border-radius: 16px;
+        padding: 32px 28px;
+        text-align: left;
+        transition: transform 0.25s ease, border-color 0.25s ease, background 0.25s ease;
+    }
+
+    .glass-card:hover {
+        transform: translateY(-6px);
+        background: rgba(255, 255, 255, 0.06);
+    }
+
+    .glass-card.passenger:hover { border-color: rgba(34, 230, 197, 0.4); }
+    .glass-card.driver:hover { border-color: rgba(255, 182, 72, 0.4); }
+
+    .glass-card .icon-badge {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 19px;
+        margin-bottom: 20px;
+    }
+
+    .passenger .icon-badge { background: rgba(34, 230, 197, 0.12); color: var(--cyan); }
+    .driver .icon-badge { background: rgba(255, 182, 72, 0.12); color: var(--amber); }
+
+    .glass-card h2 { font-size: 19px; font-weight: 600; margin-bottom: 8px; }
+
+    .glass-card p {
+        color: var(--muted);
+        font-size: 14.5px;
+        line-height: 1.55;
+        margin-bottom: 22px;
+    }
+
+    .card-btn {
+        display: block;
+        text-align: center;
+        border: none;
+        padding: 11px 20px;
+        border-radius: 8px;
+        font-weight: 600;
+        font-size: 14px;
+        cursor: pointer;
+        width: 100%;
+        transition: filter 0.2s ease;
+    }
+
+    .card-btn:hover { filter: brightness(1.12); }
+
+    .passenger .card-btn { background: var(--cyan); color: #04231D; }
+    .driver .card-btn { background: var(--amber); color: #3A2200; }
+
+    /* ================= VALUE STRIP ================= */
+
+    .value-strip {
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 56px 0;
+    }
+
+    .value-strip .wrap {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 36px;
+    }
+
+    .value-item { display: flex; gap: 16px; align-items: flex-start; }
+
+    .value-icon {
+        width: 42px;
+        height: 42px;
+        min-width: 42px;
+        border-radius: 11px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+    }
+
+    .value-item:nth-child(1) .value-icon { background: rgba(168, 44, 59, 0.12); color: var(--violet-soft); }
+    .value-item:nth-child(2) .value-icon { background: rgba(34, 230, 197, 0.12); color: var(--cyan); }
+    .value-item:nth-child(3) .value-icon { background: rgba(255, 182, 72, 0.12); color: var(--amber); }
+
+    .value-item h3 { font-size: 15.5px; font-weight: 600; margin-bottom: 4px; }
+    .value-item p { color: var(--muted); font-size: 13.5px; line-height: 1.55; }
+
+    /* ================= HOW IT WORKS ================= */
+
+    .section { padding: 110px 0; }
+
+    .section-head { max-width: 560px; margin: 0 auto 64px; text-align: center; }
+
+    .section-head .tag {
+        color: var(--violet-soft);
+        font-size: 13px;
+        font-weight: 600;
+        letter-spacing: 1.5px;
+        text-transform: uppercase;
+    }
+
+    .section-head h2 {
+        font-size: clamp(28px, 4vw, 38px);
+        font-weight: 600;
+        margin-top: 14px;
+        letter-spacing: -0.5px;
+    }
+
+    .section-head p {
+        color: var(--muted);
+        margin-top: 14px;
+        font-size: 15.5px;
+        line-height: 1.6;
+    }
+
+    .steps {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 28px;
+    }
+
+    .step {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        padding: 32px 26px;
+        position: relative;
+        background: linear-gradient(180deg, rgba(255,255,255,0.02), transparent);
+    }
+
+    .step .num {
+        font-family: 'Space Grotesk', sans-serif;
+        font-size: 13px;
+        color: var(--cyan);
+        border: 1px solid rgba(34,230,197,0.3);
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+
+    .step h3 { font-size: 17px; font-weight: 600; margin-bottom: 10px; }
+    .step p { color: var(--muted); font-size: 14.5px; line-height: 1.6; }
+
+    /* ================= ROUTES ================= */
+
+    .routes-section { padding: 100px 0; background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+
+    .route-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+    }
+
+    .route-chip {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        flex-wrap: wrap;
+        border: 1px solid var(--line);
+        background: var(--bg-3);
+        padding: 20px 24px;
+        border-radius: 14px;
+        transition: border-color 0.2s ease;
+    }
+
+    .route-chip:hover { border-color: rgba(168, 44, 59, 0.4); }
+
+    .route-path { display: flex; align-items: center; gap: 12px; font-size: 15px; font-weight: 500; }
+    .route-path i { color: var(--violet-soft); font-size: 13px; }
+
+    .route-check {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid var(--line);
+        background: transparent;
+        color: var(--text);
+        font-size: 13px;
+        font-weight: 600;
+        padding: 9px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: border-color 0.2s ease, background 0.2s ease;
+    }
+
+    .route-check:hover { border-color: rgba(34, 230, 197, 0.5); background: rgba(34, 230, 197, 0.06); color: var(--cyan); }
+
+    /* ================= CTA ================= */
+
+    .cta {
+        margin: 0 auto;
+        max-width: 1180px;
+        padding: 90px 40px;
+        text-align: center;
+    }
+
+    .cta-box {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        padding: 70px 40px;
+        background: radial-gradient(ellipse at 50% 0%, rgba(124,92,255,0.12), transparent 60%);
+        position: relative;
+        overflow: hidden;
+    }
+
+    .cta-box h2 { font-size: clamp(26px, 4vw, 36px); font-weight: 600; margin-bottom: 16px; }
+    .cta-box p { color: var(--muted); margin-bottom: 32px; font-size: 15.5px; }
+
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+
+    .btn-primary, .btn-ghost {
+        display: inline-block;
+        padding: 13px 26px;
+        border-radius: 9px;
+        font-weight: 600;
+        font-size: 14.5px;
+        cursor: pointer;
+        border: none;
+    }
+
+    .btn-primary { background: var(--violet); color: #fff; }
+    .btn-ghost { background: transparent; border: 1px solid var(--line); color: var(--text); }
+
+    /* ================= FOOTER ================= */
+
+    footer {
+        border-top: 1px solid var(--line);
+        padding: 44px 0 30px;
+    }
+
+    footer .wrap {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    footer .logo { font-size: 16px; }
+    footer .foot-links { display: flex; gap: 26px; color: var(--muted); font-size: 13.5px; }
+    footer .foot-links a:hover { color: var(--text); }
+    footer .copy { color: var(--muted); font-size: 12.5px; margin-top: 6px; }
+
+    @media (max-width: 900px) {
+        .steps, .route-grid { grid-template-columns: 1fr; }
+        .value-strip .wrap { grid-template-columns: 1fr; row-gap: 26px; }
+        .nav-links { display: none; }
+        .wrap { padding: 0 22px; }
+        .hero { padding: 130px 22px 80px; }
+    }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">
+        <i class="fa-solid fa-car-side"></i>
+        <span>ChitRide</span>
+    </div>
+
+    <div class="nav-links">
+        <a href="#how">How it works</a>
+        <a href="#routes">Routes</a>
+        <a href="#about">About</a>
+    </div>
+
+    <div class="nav-right">
+        <a class="offer-btn" href="auth.html?mode=signup">Offer a Ride</a>
+        <a class="profile" href="auth.html?mode=signin" aria-label="Sign in"><i class="fa-solid fa-user"></i></a>
+    </div>
+</nav>
+
+<section class="hero">
+
+    <canvas id="network-bg"></canvas>
+
+    <div class="hero-content">
+
+        <div class="eyebrow"><span class="dot"></span> Live network · Chitkara University students only</div>
+
+        <h1>Travel together. <br> Travel <span>smarter.</span></h1>
+
+        <p class="sub">
+            Verified rides between campus and home — matched with fellow
+            <strong>Chitkara University</strong> students, not strangers off the street.
+        </p>
+
+        <div class="cards">
+
+            <div class="glass-card passenger">
+                <div class="icon-badge"><i class="fa-solid fa-user-group"></i></div>
+                <h2>Passenger mode</h2>
+                <p>Find a verified ride home, split by seat, matched by route and time.</p>
+                <a class="card-btn" href="auth.html?mode=signup">Find a ride</a>
+            </div>
+
+            <div class="glass-card driver">
+                <div class="icon-badge"><i class="fa-solid fa-car"></i></div>
+                <h2>Driver mode</h2>
+                <p>Fill your empty seats, cover your fuel, meet people going your way.</p>
+                <a class="card-btn" href="auth.html?mode=signup">Offer a ride</a>
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<section class="value-strip">
+    <div class="wrap">
+        <div class="value-item">
+            <div class="value-icon"><i class="fa-solid fa-clock"></i></div>
+            <div>
+                <h3>We care about your time</h3>
+                <p>Matched with someone already on your route — no waiting at the gate.</p>
+            </div>
+        </div>
+        <div class="value-item">
+            <div class="value-icon"><i class="fa-solid fa-wallet"></i></div>
+            <div>
+                <h3>We care about your pocket money</h3>
+                <p>Split fuel cost with your rider instead of paying for it alone.</p>
+            </div>
+        </div>
+        <div class="value-item">
+            <div class="value-icon"><i class="fa-solid fa-shield-halved"></i></div>
+            <div>
+                <h3>Verified students only</h3>
+                <p>Every account is tied to a Chitkara University ID — no strangers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="section" id="how">
+    <div class="wrap">
+
+        <div class="section-head">
+            <div class="tag">How it works</div>
+            <h2>From campus gate to home, in three steps</h2>
+            <p>No public listings, no strangers. Every account is tied to a college ID.</p>
+        </div>
+
+        <div class="steps">
+
+            <div class="step">
+                <div class="num">01</div>
+                <h3>Verify with college ID</h3>
+                <p>Sign up with your Chitkara University email — every rider and driver on ChitRide is a verified student.</p>
+            </div>
+
+            <div class="step">
+                <div class="num">02</div>
+                <h3>Match by route</h3>
+                <p>Post where you're headed — Rajpura, Banur, Zirakpur, Patiala — and get matched with someone already going there.</p>
+            </div>
+
+            <div class="step">
+                <div class="num">03</div>
+                <h3>Ride and split the cost</h3>
+                <p>Confirm the ride in-app, travel together, and split fuel cost automatically — no cash, no haggling.</p>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="routes-section" id="routes">
+    <div class="wrap">
+
+        <div class="section-head">
+            <div class="tag">Popular routes</div>
+            <h2>Routes students travel most</h2>
+        </div>
+
+        <div class="route-grid">
+
+            <div class="route-chip">
+                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Rajpura</div>
+                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="route-chip">
+                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Banur</div>
+                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="route-chip">
+                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Zirakpur</div>
+                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+            <div class="route-chip">
+                <div class="route-path">Chitkara University <i class="fa-solid fa-arrow-right-long"></i> Patiala</div>
+                <button class="route-check" onclick="location.href='booking.html'">Check rides <i class="fa-solid fa-arrow-right"></i></button>
+            </div>
+
+        </div>
+
+    </div>
+</section>
+
+<section class="cta" id="about">
+    <div class="cta-box">
+        <h2>Your next ride is already on your route</h2>
+        <p>Join the network built by and for Chitkara University students.</p>
+        <div class="cta-buttons">
+            <a class="btn-primary" href="auth.html?mode=signup">Get verified — it's free</a>
+            <a class="btn-ghost" href="#how">See how matching works</a>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="wrap">
+        <div>
+            <div class="logo"><i class="fa-solid fa-car-side"></i><span>ChitRide</span></div>
+            <div class="copy">Built for Chitkara University students · not affiliated with the university</div>
+        </div>
+        <div class="foot-links">
+            <a href="#how">How it works</a>
+            <a href="#routes">Routes</a>
+            <a href="#">Safety</a>
+            <a href="#">Contact</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+    const canvas = document.getElementById('network-bg');
+    const ctx = canvas.getContext('2d');
+    let W, H;
+
+    function resize() {
+        W = canvas.width = canvas.offsetWidth * devicePixelRatio;
+        H = canvas.height = canvas.offsetHeight * devicePixelRatio;
+    }
+    window.addEventListener('resize', resize);
+
+    const cities = [
+        { name: 'Chitkara University', x: 0.5, y: 0.42, hub: true },
+        { name: 'Rajpura', x: 0.30, y: 0.62 },
+        { name: 'Banur', x: 0.70, y: 0.60 },
+        { name: 'Zirakpur', x: 0.80, y: 0.30 },
+        { name: 'Patiala', x: 0.18, y: 0.28 },
+        { name: 'Chandigarh', x: 0.62, y: 0.14 }
+    ];
+
+    const links = [[0,1],[0,2],[0,3],[0,4],[0,5],[2,3],[1,4]];
+
+    const pulses = links.map(() => ({ t: Math.random(), speed: 0.0025 + Math.random() * 0.002 }));
+
+    function pos(node) {
+        return { x: node.x * W, y: node.y * H };
+    }
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        links.forEach(([a, b], i) => {
+            const p1 = pos(cities[a]);
+            const p2 = pos(cities[b]);
+
+            ctx.beginPath();
+            ctx.moveTo(p1.x, p1.y);
+            ctx.lineTo(p2.x, p2.y);
+            ctx.strokeStyle = 'rgba(168, 44, 59, 0.16)';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            const pu = pulses[i];
+            pu.t += pu.speed;
+            if (pu.t > 1) pu.t = 0;
+            const px = p1.x + (p2.x - p1.x) * pu.t;
+            const py = p1.y + (p2.y - p1.y) * pu.t;
+
+            const grad = ctx.createRadialGradient(px, py, 0, px, py, 10);
+            grad.addColorStop(0, 'rgba(34, 230, 197, 0.9)');
+            grad.addColorStop(1, 'rgba(34, 230, 197, 0)');
+            ctx.beginPath();
+            ctx.arc(px, py, 10, 0, Math.PI * 2);
+            ctx.fillStyle = grad;
+            ctx.fill();
+        });
+
+        cities.forEach(c => {
+            const p = pos(c);
+            const r = c.hub ? 5 : 3.5;
+
+            const glow = ctx.createRadialGradient(p.x, p.y, 0, p.x, p.y, r * 6);
+            glow.addColorStop(0, c.hub ? 'rgba(168, 44, 59, 0.4)' : 'rgba(168, 44, 59, 0.25)');
+            glow.addColorStop(1, 'rgba(0,0,0,0)');
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r * 6, 0, Math.PI * 2);
+            ctx.fillStyle = glow;
+            ctx.fill();
+
+            ctx.beginPath();
+            ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+            ctx.fillStyle = c.hub ? '#A82C3B' : '#D98A82';
+            ctx.fill();
+        });
+
+        requestAnimationFrame(draw);
+    }
+
+    resize();
+    draw();
+</script>
+
+</body>
+</html>
