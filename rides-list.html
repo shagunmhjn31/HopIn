@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Available Rides — ChitRide</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
+
+<style>
+    :root {
+        --bg: #0A0E1A;
+        --bg-2: #10152B;
+        --bg-3: #161C38;
+        --maroon: #A82C3B;
+        --maroon-soft: #D98A82;
+        --cyan: #22E6C5;
+        --amber: #FFB648;
+        --text: #F1F3FA;
+        --muted: #8B93B0;
+        --line: rgba(241, 243, 250, 0.09);
+        --glass: rgba(255, 255, 255, 0.04);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body { background: var(--bg); color: var(--text); font-family: 'Inter', sans-serif; min-height: 100vh; }
+    h1, .logo span { font-family: 'Space Grotesk', sans-serif; }
+    a { color: inherit; text-decoration: none; }
+
+    nav {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 20px 40px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .logo { display: flex; align-items: center; gap: 10px; font-size: 20px; font-weight: 700; }
+    .logo i { color: var(--cyan); font-size: 20px; }
+
+    .back-link { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--muted); transition: color 0.2s ease; }
+    .back-link:hover { color: var(--text); }
+
+    .wrap { max-width: 700px; margin: 0 auto; padding: 0 24px; }
+
+    .page { padding: 44px 0 100px; }
+
+    .search-summary {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 14px;
+        margin-bottom: 30px;
+        padding-bottom: 22px;
+        border-bottom: 1px solid var(--line);
+    }
+
+    .route-title { display: flex; align-items: center; gap: 12px; font-size: 19px; font-weight: 600; }
+    .route-title i, .ttl-arrow { color: var(--maroon-soft); font-size: 15px; }
+    .route-date { color: var(--muted); font-size: 13.5px; }
+
+    .edit-search { font-size: 13px; color: var(--cyan); font-weight: 600; }
+    .edit-search:hover { text-decoration: underline; }
+
+    .results-count { color: var(--muted); font-size: 13.5px; margin-bottom: 18px; }
+
+    .ride-list { display: flex; flex-direction: column; gap: 14px; }
+
+    .ride-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        border: 1px solid var(--line);
+        background: var(--glass);
+        backdrop-filter: blur(14px);
+        padding: 20px 22px;
+        border-radius: 14px;
+        transition: border-color 0.2s ease, transform 0.15s ease;
+    }
+
+    .ride-card:hover { border-color: rgba(34, 230, 197, 0.4); transform: translateY(-2px); }
+
+    .ride-left { display: flex; align-items: center; gap: 14px; }
+
+    .driver-avatar {
+        width: 46px;
+        height: 46px;
+        border-radius: 50%;
+        background: rgba(168, 44, 59, 0.16);
+        color: var(--maroon-soft);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 15px;
+        font-weight: 600;
+        font-family: 'Space Grotesk', sans-serif;
+        flex-shrink: 0;
+    }
+
+    .driver-name { font-size: 15px; font-weight: 600; margin-bottom: 3px; }
+    .driver-rating { font-size: 12.5px; color: var(--amber); }
+    .driver-rating i { font-size: 11px; }
+    .driver-rating.new-badge { color: var(--cyan); }
+
+    .ride-time { color: var(--muted); font-size: 12.5px; margin-top: 4px; }
+
+    .ride-right { text-align: right; flex-shrink: 0; }
+    .ride-price { font-size: 16px; font-weight: 600; color: var(--cyan); }
+    .ride-seats { color: var(--muted); font-size: 12px; margin-top: 3px; }
+    .ride-arrow { color: var(--muted); font-size: 13px; margin-top: 8px; }
+
+    @media (max-width: 600px) {
+        nav { padding: 16px 20px; }
+        .ride-card { flex-wrap: wrap; }
+        .ride-right { margin-left: auto; }
+    }
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo"><i class="fa-solid fa-car-side"></i><span>ChitRide</span></div>
+    <a class="back-link" href="dashboard.html"><i class="fa-solid fa-arrow-left"></i> Back to dashboard</a>
+</nav>
+
+<div class="wrap">
+    <div class="page">
+
+        <div class="search-summary">
+            <div>
+                <div class="route-title" id="route-title"><i class="fa-solid fa-location-dot"></i> Route</div>
+                <div class="route-date" id="route-date"></div>
+            </div>
+            <a class="edit-search" href="booking.html?mode=passenger">Edit search</a>
+        </div>
+
+        <div class="results-count" id="results-count"></div>
+
+        <div class="ride-list" id="ride-list"></div>
+
+    </div>
+</div>
+
+<script>
+    var params = new URLSearchParams(window.location.search);
+    var from = params.get('from');
+    var to = params.get('to');
+    var date = params.get('date');
+
+    if (!from || !to) {
+        window.location.href = 'booking.html?mode=passenger';
+    }
+
+    document.getElementById('route-title').innerHTML = '<span class="ttl-arrow">&#9679;</span> ' + from + ' <span class="ttl-arrow">&#8594;</span> ' + to;
+    document.getElementById('route-date').textContent = date ? new Date(date).toDateString() : 'Today';
+
+    /* real rides posted by drivers via booking.html, matched loosely on destination */
+    var postedRides = [];
+    try { postedRides = JSON.parse(localStorage.getItem('chitride_posted_rides')) || []; } catch (err) { postedRides = []; }
+
+    var matchedPosted = postedRides.filter(function (r) {
+        return r.to.toLowerCase().indexOf(to.toLowerCase()) !== -1 || to.toLowerCase().indexOf(r.to.toLowerCase()) !== -1;
+    }).map(function (r) {
+        var initials = r.driverName.trim().split(' ').map(function (w) { return w.charAt(0).toUpperCase(); }).slice(0, 2).join('');
+        return {
+            name: r.driverName,
+            rating: null,
+            time: r.time,
+            price: r.price,
+            seats: r.seats,
+            initials: initials || 'D',
+            isNew: true
+        };
+    });
+
+    /* demo ride generator — placeholder listings until enough real drivers post routes */
+    var demoDrivers = [
+        { name: 'Harpreet Singh', rating: 4.8, time: '8:00 AM', price: 40, seats: 2, initials: 'HS' },
+        { name: 'Simranjeet Kaur', rating: 4.9, time: '8:30 AM', price: 55, seats: 3, initials: 'SK' },
+        { name: 'Aman Dhillon', rating: 4.7, time: '9:00 AM', price: 45, seats: 1, initials: 'AD' },
+        { name: 'Ramanpreet Gill', rating: 4.6, time: '5:30 PM', price: 50, seats: 2, initials: 'RG' }
+    ];
+
+    var allRides = matchedPosted.concat(demoDrivers);
+
+    var listEl = document.getElementById('ride-list');
+    document.getElementById('results-count').textContent = allRides.length + ' rides found';
+
+    allRides.forEach(function (d, i) {
+        var card = document.createElement('a');
+        card.className = 'ride-card';
+        card.href = 'ride-details.html?' +
+            'name=' + encodeURIComponent(d.name) +
+            '&initials=' + encodeURIComponent(d.initials) +
+            '&rating=' + (d.rating || '') +
+            '&time=' + encodeURIComponent(d.time) +
+            '&price=' + d.price +
+            '&seats=' + d.seats +
+            '&from=' + encodeURIComponent(from) +
+            '&to=' + encodeURIComponent(to) +
+            '&date=' + encodeURIComponent(date || '');
+
+        var ratingHtml = d.isNew
+            ? '<div class="driver-rating new-badge">New driver</div>'
+            : '<div class="driver-rating">&#9733; ' + d.rating + '</div>';
+
+        card.innerHTML =
+            '<div class="ride-left">' +
+                '<div class="driver-avatar">' + d.initials + '</div>' +
+                '<div>' +
+                    '<div class="driver-name">' + d.name + '</div>' +
+                    ratingHtml +
+                    '<div class="ride-time">' + d.time + ' · ' + d.seats + ' seat' + (d.seats > 1 ? 's' : '') + ' left</div>' +
+                '</div>' +
+            '</div>' +
+            '<div class="ride-right">' +
+                '<div class="ride-price">₹' + d.price + '</div>' +
+                '<div class="ride-seats">per seat</div>' +
+                '<div class="ride-arrow">&#8594;</div>' +
+            '</div>';
+
+        listEl.appendChild(card);
+    });
+</script>
+
+</body>
+</html>
